@@ -3,18 +3,14 @@
 # Change this path if necessary
 export SHLIB=".."
 
+# Import stream.sh
+. $SHLIB/stream.sh
 
-# Separating is required so the two streams do not interfere
-. $SHLIB/separate.sh
-# Set all separations to fork instead of staying
-FORK=1
 
-# Server
-sep '
-    # Set command to stream: netcat -lp 4400
-    pargs="netcat -lp 4400"
-    # Import stream.sh
-    . $SHLIB/stream.sh
+# Start server in separate thread:
+(
+    # Stream netcat -lp 4400
+    stream netcat -lp 4400
     
     while true; do
         line="$(readln)"
@@ -30,7 +26,7 @@ sep '
         esac
         unset line
     done
-'
+) &
 
 
 # Client:
@@ -38,10 +34,8 @@ sep '
 # Wait for Server thread
 sleep 0.1
 
-# Set command to stream: netcat localhost 4400
-pargs="netcat localhost 4400"
-# Import stream.sh
-. $SHLIB/stream.sh
+# Stream netcat localhost 4400
+stream netcat localhost 4400
 sleep 0.1
 writeln BEGIN
 readln
