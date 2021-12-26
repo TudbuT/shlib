@@ -11,12 +11,12 @@ stream() {
     INSTANCE=$!
 
     # Initialize instance
-    touch "/tmp/$INSTANCE.out" "/tmp/$INSTANCE.in"
-    tail -f "/tmp/$INSTANCE.out" | $@ | (
+    touch "$TMPDIR/$INSTANCE.out" "$TMPDIR/$INSTANCE.in"
+    tail -f "$TMPDIR/$INSTANCE.out" | $@ | (
         while true ; do
             read -r line || exit
             [ "$line" = '' ] && continue 
-            echo "$line" >> "/tmp/$INSTANCE.in"
+            echo "$line" >> "$TMPDIR/$INSTANCE.in"
             unset line
         done 
     ) > /dev/null 2>&1 &
@@ -27,23 +27,23 @@ stream() {
         done
         # Main process got killed
         kill "$PID" "$ncpid"
-        rm -rf "/tmp/$INSTANCE.in" "/tmp/$INSTANCE.out"
+        rm -rf "$TMPDIR/$INSTANCE.in" "$TMPDIR/$INSTANCE.out"
     ) > /dev/null 2>&1 & 
 }
 write() {
-    echo -n "$@" >> "/tmp/$INSTANCE.out"
+    echo -n "$@" >> "$TMPDIR/$INSTANCE.out"
 }
 writee() {
-    echo -ne "$@" >> "/tmp/$INSTANCE.out"
+    echo -ne "$@" >> "$TMPDIR/$INSTANCE.out"
 }
 writeln() {
-    echo "$@" >> "/tmp/$INSTANCE.out"
+    echo "$@" >> "$TMPDIR/$INSTANCE.out"
 }
 writelne() {
-    echo -e "$@" >> "/tmp/$INSTANCE.out"
+    echo -e "$@" >> "$TMPDIR/$INSTANCE.out"
 }
 readln() {
-    tail -fn+1 "/tmp/$INSTANCE.in" | head -n1 2> /dev/null
-    tail -n+2 "/tmp/$INSTANCE.in" > "/tmp/$INSTANCE.in.tmp" 2> /dev/null
-    mv "/tmp/$INSTANCE.in.tmp" "/tmp/$INSTANCE.in" 2> /dev/null
+    tail -fn+1 "$TMPDIR/$INSTANCE.in" | head -n1 2> /dev/null
+    tail -n+2 "$TMPDIR/$INSTANCE.in" > "$TMPDIR/$INSTANCE.in.tmp" 2> /dev/null
+    mv "$TMPDIR/$INSTANCE.in.tmp" "$TMPDIR/$INSTANCE.in" 2> /dev/null
 }
