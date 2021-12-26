@@ -1,6 +1,5 @@
 # Strictly POSIX script for running a RW process
-# Include using `. <this script file>` and remember
-# to set $pargs to your command / args first
+# Include using `. <this script file>` 
 # THIS FILE MAY ONLY BE INCLUDED ONCE PER SHELL!
 #
 # Made by TudbuT and licensed under GPL version 3
