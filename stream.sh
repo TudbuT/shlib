@@ -16,13 +16,12 @@ tail -f "$PID.out" | $(echo $pargs) | (
     done 
 ) > /dev/null 2>&1 &
 ncpid=$!
-readerpid=$!
 (
     while kill -0 "$PID" "$ncpid" ; do 
         sleep 0.1
     done
     # Main process got killed
-    kill "$PID" "$ncpid" "$readerpid"
+    kill "$PID" "$ncpid"
     rm -rf "$PID.in" "$PID.out"
 ) > /dev/null 2>&1 & 
 write() {
