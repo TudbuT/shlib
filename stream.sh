@@ -4,6 +4,8 @@
 #
 # Made by TudbuT and licensed under GPL version 3
 
+[ $TMPDIR = '' ] && export TMPDIR=/tmp
+
 PID=$$
 stream() {
     # Generate instance ID
@@ -26,7 +28,7 @@ stream() {
             sleep 0.1
         done
         # Main process got killed
-        $SHELL -c "$onexit"
+        $onexit
         kill "$PID" "$ncpid"
         rm -rf "$TMPDIR/$INSTANCE.in" "$TMPDIR/$INSTANCE.out"
     ) > /dev/null 2>&1 & 
