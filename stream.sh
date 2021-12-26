@@ -4,7 +4,7 @@
 #
 # Made by TudbuT and licensed under GPL version 3
 
-[ $TMPDIR = '' ] && export TMPDIR=/tmp
+[ "$TMPDIR" = '' ] && export TMPDIR=/tmp
 
 PID=$$
 stream() {
