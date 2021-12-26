@@ -26,6 +26,7 @@ stream() {
             sleep 0.1
         done
         # Main process got killed
+        $SHELL -c "$onexit"
         kill "$PID" "$ncpid"
         rm -rf "$TMPDIR/$INSTANCE.in" "$TMPDIR/$INSTANCE.out"
     ) > /dev/null 2>&1 & 
