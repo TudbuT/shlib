@@ -25,6 +25,7 @@ sep '
             ;;
         "END")
             echo "SERVER: Connection stopped"
+            exit
             ;;
         esac
         unset line
@@ -45,3 +46,6 @@ sleep 0.1
 writeln BEGIN
 readln
 writeln END
+
+
+
